@@ -1,0 +1,1 @@
+import{r as e,t}from"./ScrollTrigger.D8WC5s4H.js";e.registerPlugin(t),e.to(`#Hero`,{scale:.9,opacity:.1,borderRadius:`32px`,ease:`power1.inOut`,scrollTrigger:{trigger:`#Hero`,start:`top top`,end:`bottom top`,scrub:!0}}),e.to(`.hero-text`,{opacity:0,y:-60,ease:`power1.out`,scrollTrigger:{trigger:`#Hero`,start:`top top`,end:`bottom 40%`,scrub:!0}});
