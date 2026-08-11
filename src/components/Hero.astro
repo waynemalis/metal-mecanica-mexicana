@@ -1,0 +1,71 @@
+---
+import video from '../assets/HeaderVid.webm';
+import { ChevronDown, Pause, Play } from '@lucide/astro'
+
+import { useTranslations } from "../i18n/utils";
+import { languageList } from "../i18n/ui";
+
+const currentLocale = (Astro.currentLocale || 'es') as keyof typeof languageList;
+const t = useTranslations(currentLocale);
+---
+
+<div id="Hero" class="relative w-full h-[100vh] bg-slate-950 overflow-hidden">
+    <!-- Inner container that will shrink (Apple Style) -->
+    <div class="hero-inner relative w-full h-full flex justify-center items-center px-4 overflow-hidden origin-center">
+        <div class="hero-text z-10 flex flex-col items-center justify-center text-center gap-6 max-w-4xl">
+            <h1 class="w-full text-white text-2xl sm:text-3xl lg:text-4xl leading-tight select-none">
+                <span class="font-neuton font-600 text-[#A3E034] italic hover:underline hover:underline-offset-6 opacity-100">{t('hero.title.1')}</span>
+                <span class="opacity-80"> {t('hero.title.2')} </span>
+                <span class="font-neuton font-600 text-[#A3E034] italic hover:underline hover:underline-offset-6 opacity-100">{t('hero.title.3')}</span>
+                <span class="opacity-80">, </span>
+                <span class="font-neuton font-600 text-[#A3E034] italic hover:underline hover:underline-offset-6 opacity-100">{t('hero.title.4')}</span>
+                <span class="opacity-80"> {t('hero.title.5')} </span>
+                <span class="font-neuton font-600 text-[#A3E034] italic hover:underline hover:underline-offset-6 opacity-100">{t('hero.title.6')}</span>
+                <span class="opacity-80"> {t('hero.title.7')}</span>
+            </h1>
+            <h2 class="w-[90%] sm:w-[85%] md:w-[75%] lg:w-[65%] text-white text-base sm:text-lg lg:text-xl leading-normal p-2 select-none opacity-90">
+                <span>{t('hero.title.8')}</span>
+            </h2>
+        </div>
+
+        <video src={video} class="w-full h-full object-cover absolute top-0 left-0 -z-10" autoplay muted loop></video>
+        <div class="w-full h-full bg-black/80 absolute top-0 left-0 -z-9"></div>
+        <button class="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 cursor-pointer transition-colors duration-300 flex items-center space-x-2">
+            <ChevronDown size={32} class="text-white animate-bounce" />
+        </button>
+    </div>
+</div>
+
+<script>
+    import { gsap } from 'gsap';
+    import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Animación de encogimiento de la tarjeta Hero (Apple Style)
+    gsap.to('#Hero', {
+        scale: 0.9,
+        opacity: 0.1,
+        borderRadius: '32px',
+        ease: 'power1.inOut',
+        scrollTrigger: {
+            trigger: '#Hero',
+            start: 'top top',
+            end: 'bottom top',
+            scrub: true,
+        }
+    });
+
+    // Paralaje y desvanecimiento de textos
+    gsap.to('.hero-text', {
+        opacity: 0,
+        y: -60,
+        ease: 'power1.out',
+        scrollTrigger: {
+            trigger: '#Hero',
+            start: 'top top',
+            end: 'bottom 40%',
+            scrub: true,
+        }
+    });
+</script>

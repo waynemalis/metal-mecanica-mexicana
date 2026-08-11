@@ -1,0 +1,185 @@
+---
+import { Mail, Phone, MapPin, MessageSquare } from '@lucide/astro'
+
+import { useTranslations } from "../i18n/utils";
+import { languageList } from "../i18n/ui";
+
+const currentLocale = (Astro.currentLocale || 'es') as keyof typeof languageList;
+const t = useTranslations(currentLocale);
+
+// Datos oficiales proveídos por el usuario
+const emails = ["metalmexicanam@gmail.com"];
+const phones = [
+    { label: "+52 614-197-1719", val: "+526141971719" },
+    { label: "+52 639-112-8053", val: "+526391128053" },
+    { label: "+1 (915) 781-5208", val: "+19157815208" }
+];
+const whatsapps = [
+    { label: "+52 614-197-1719", val: "526141971719" },
+    { label: "+52 639-112-8053", val: "526391128053" },
+    { label: "+1 (915) 781-5208", val: "19157815208" }
+];
+const address = "Calle Ferrocarril 514, Colonia Centro, Meoqui, Chihuahua, C.P. 33130";
+---
+
+<section id="Contacto" class="w-full bg-[#fcfcfc] py-20 px-6 md:px-24 border-t border-slate-100 select-none overflow-hidden relative">
+    <div class="max-w-7xl mx-auto flex flex-col gap-12">
+        
+        <!-- Encabezado de la Sección (Centrado igual a los de Quality o Difference) -->
+        <div class="contact-header text-center max-w-2xl mx-auto">
+            <h2 class="text-3xl md:text-5xl font-neuton font-medium italic text-[#1E3F20] mb-4">{t('contact.title')}</h2>
+            <p class="text-[#4E584B] text-sm md:text-base leading-relaxed">
+                {t('contact.subtitle')}
+            </p>
+        </div>
+
+        <!-- Grid de Contenido (Dos tarjetas coordinadas con el diseño redondeado del sitio) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+            
+            <!-- Tarjeta 1: Formulario de Contacto (Diseño limpio en blanco, rounded-2xl) -->
+            <div class="contact-animate-left lg:col-span-7 flex flex-col justify-between bg-white p-8 md:p-10 rounded-2xl border border-slate-100 shadow-[0_15px_40px_rgba(0,0,0,0.03)]">
+                <form class="flex flex-col gap-5 w-full" onsubmit="event.preventDefault(); alert('Mensaje enviado con éxito');">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div class="flex flex-col gap-2">
+                            <label class="text-xs font-semibold text-neutral-400 uppercase tracking-wider font-sans" for="name">{t('contact.form.name')}</label>
+                            <input type="text" id="name" required class="px-4 py-3 rounded-lg border border-slate-200 bg-white text-black outline-none focus:border-[#1E3F20] focus:ring-2 focus:ring-[#1E3F20]/5 transition-colors duration-300 font-sans text-sm" placeholder="Juan Pérez" />
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="text-xs font-semibold text-neutral-400 uppercase tracking-wider font-sans" for="phone">{t('contact.form.phone')}</label>
+                            <input type="tel" id="phone" required class="px-4 py-3 rounded-lg border border-slate-200 bg-white text-black outline-none focus:border-[#1E3F20] focus:ring-2 focus:ring-[#1E3F20]/5 transition-colors duration-300 font-sans text-sm" placeholder="+52 614 123 4567" />
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="text-xs font-semibold text-neutral-400 uppercase tracking-wider font-sans" for="email">{t('contact.form.email')}</label>
+                        <input type="email" id="email" required class="px-4 py-3 rounded-lg border border-slate-200 bg-white text-black outline-none focus:border-[#1E3F20] focus:ring-2 focus:ring-[#1E3F20]/5 transition-colors duration-300 font-sans text-sm" placeholder="juan@correo.com" />
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="text-xs font-semibold text-neutral-400 uppercase tracking-wider font-sans" for="message">{t('contact.form.message')}</label>
+                        <textarea id="message" rows="4" required class="px-4 py-3 rounded-lg border border-slate-200 bg-white text-black outline-none focus:border-[#1E3F20] focus:ring-2 focus:ring-[#1E3F20]/5 transition-colors duration-300 font-sans text-sm resize-none" placeholder={t('contact.form.message')}></textarea>
+                    </div>
+                    <!-- Botón con el estilo oficial de Topbar -->
+                    <button type="submit" class="w-fit text-black px-6 py-3.5 rounded-full bg-[#A3E034] hover:bg-[#A3E034]/70 cursor-pointer transition-colors duration-300 shadow-[0_4px_14px_rgba(163,224,52,0.25)] select-none text-sm">
+                        {t('contact.form.send')}
+                    </button>
+                </form>
+            </div>
+
+            <!-- Tarjeta 2: Panel de Contacto Directo (Diseño Verde Bosque #1E3F20 con textura de ruido y rounded-2xl) -->
+            <div class="contact-animate-right lg:col-span-5 flex flex-col gap-8 bg-[#1E3F20] p-8 md:p-10 rounded-2xl border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.18)] text-white relative overflow-hidden">
+                <!-- Textura de Ruido integrada para darle cuerpo al verde sólido -->
+                <div class="absolute inset-0 w-full h-full opacity-[0.025] mix-blend-overlay pointer-events-none z-0" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.8\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E');"></div>
+
+                <h3 class="text-[#A3E034] font-neuton font-medium italic text-2xl border-b border-white/10 pb-4 relative z-1">{t('contact.info.title')}</h3>
+
+                <div class="flex flex-col gap-5 relative z-1">
+                    <!-- Teléfonos -->
+                    <div class="flex gap-4 items-start border-b border-white/5 pb-5">
+                        <div class="p-2.5 bg-white/5 text-[#A3E034] rounded-lg shrink-0 border border-white/5">
+                            <Phone size={18} />
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-[10px] font-semibold text-white/40 uppercase tracking-widest font-sans mb-1">{currentLocale === 'es' ? 'Teléfonos de Atención' : 'Phone Numbers'}</span>
+                            <div class="flex flex-col gap-1">
+                                {phones.map(phone => (
+                                    <a href={`tel:${phone.val}`} class="text-white hover:text-[#A3E034] font-sans text-sm transition-colors duration-300 w-fit">{phone.label}</a>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- WhatsApp -->
+                    <div class="flex gap-4 items-start border-b border-white/5 pb-5">
+                        <div class="p-2.5 bg-white/5 text-[#A3E034] rounded-lg shrink-0 border border-white/5">
+                            <MessageSquare size={18} />
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-[10px] font-semibold text-white/40 uppercase tracking-widest font-sans mb-1">WhatsApp</span>
+                            <div class="flex flex-col gap-1">
+                                {whatsapps.map(wa => (
+                                    <a href={`https://wa.me/${wa.val}`} target="_blank" rel="noopener noreferrer" class="text-white hover:text-[#A3E034] font-sans text-sm transition-colors duration-300 w-fit flex items-center gap-1.5">{wa.label}</a>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Correo Electrónico -->
+                    <div class="flex gap-4 items-start border-b border-white/5 pb-5">
+                        <div class="p-2.5 bg-white/5 text-[#A3E034] rounded-lg shrink-0 border border-white/5">
+                            <Mail size={18} />
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-[10px] font-semibold text-white/40 uppercase tracking-widest font-sans mb-1">{currentLocale === 'es' ? 'Correo de Contacto' : 'Email Address'}</span>
+                            <div class="flex flex-col gap-1">
+                                {emails.map(email => (
+                                    <a href={`mailto:${email}`} class="text-white hover:text-[#A3E034] font-sans text-sm transition-colors duration-300 w-fit break-all">{email}</a>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dirección -->
+                    <div class="flex gap-4 items-start">
+                        <div class="p-2.5 bg-white/5 text-[#A3E034] rounded-lg shrink-0 border border-white/5">
+                            <MapPin size={18} />
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-[10px] font-semibold text-white/40 uppercase tracking-widest font-sans mb-1">{currentLocale === 'es' ? 'Dirección Física' : 'Physical Address'}</span>
+                            <a href="https://www.google.com/maps/search/?api=1&query=Calle+Ferrocarril+514,+Colonia+Centro,+Meoqui,+Chihuahua,+33130" target="_blank" rel="noopener noreferrer" class="text-white hover:text-[#A3E034] transition-colors duration-300 font-sans text-sm leading-relaxed max-w-xs block">{address}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<script>
+    import { gsap } from 'gsap';
+    import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const isMobile = window.innerWidth < 768;
+
+    // Animación de entrada de la cabecera
+    gsap.from('.contact-header', {
+        opacity: 0,
+        y: 30,
+        duration: 0.6,
+        ease: 'power2.out',
+        scrollTrigger: {
+            trigger: '#Contacto',
+            start: 'top 85%',
+            toggleActions: 'play none none none'
+        }
+    });
+
+    // Animación de entrada de la tarjeta del formulario
+    gsap.from('.contact-animate-left', {
+        opacity: 0,
+        x: isMobile ? 0 : -40,
+        y: isMobile ? 30 : 0,
+        duration: 0.8,
+        ease: 'power2.out',
+        scrollTrigger: {
+            trigger: '#Contacto',
+            start: 'top 80%',
+            toggleActions: 'play none none none'
+        }
+    });
+
+    // Animación de entrada de la tarjeta verde de contacto directo
+    gsap.from('.contact-animate-right', {
+        opacity: 0,
+        x: isMobile ? 0 : 40,
+        y: isMobile ? 30 : 0,
+        duration: 0.8,
+        ease: 'power2.out',
+        scrollTrigger: {
+            trigger: '#Contacto',
+            start: 'top 80%',
+            toggleActions: 'play none none none'
+        }
+    });
+</script>

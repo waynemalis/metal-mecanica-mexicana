@@ -1,0 +1,152 @@
+---
+import siteLogo from "../assets/logo.png";
+import video from '../assets/BodyVid.webm';
+import { Mail, Phone, MapPin, Globe, Heart } from '@lucide/astro'
+
+import { useTranslations } from "../i18n/utils";
+import { languageList } from "../i18n/ui";
+
+const currentLocale = (Astro.currentLocale || 'es') as keyof typeof languageList;
+const t = useTranslations(currentLocale);
+---
+
+<div id="Footer-section" class="w-full bg-white pt-20 select-none overflow-visible">
+    <!-- 1. TARJETA TRASLAPADA (Inspirada en el bloque CTA de la referencia) -->
+    <div id="cta-card" class="relative w-[90vw] max-w-6xl mx-auto -mb-28 z-20 overflow-hidden rounded-[24px] border border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.45)] bg-neutral-950 origin-bottom">
+        <!-- Fondo de degradado verde bosque profundo a negro carbón y foco de resplandor suave -->
+        <div class="w-full h-full bg-gradient-to-r from-[#1E3F20] via-[#122413] to-neutral-950 absolute top-0 left-0 -z-9"></div>
+        <div class="absolute right-[-5%] bottom-[-40%] w-[320px] h-[320px] bg-[#A3E034]/10 rounded-full blur-[80px] pointer-events-none -z-8"></div>
+        <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover opacity-10 pointer-events-none -z-8">
+            <source src={video} type="video/webm">
+        </video>
+
+        <div class="relative z-10 px-8 py-12 md:p-16 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+            <div class="max-w-2xl text-left">
+                <h2 class="text-white font-neuton font-medium italic text-3xl md:text-5xl mb-4 tracking-wide">{t('footer.cta.title')}</h2>
+                <p class="text-neutral-300 text-xs md:text-sm leading-relaxed font-sans max-w-xl">
+                    {t('footer.cta.text')}
+                </p>
+            </div>
+            <!-- Botón Blanco Premium sin opacidad de hover -->
+            <a href="#Contacto" class="shrink-0 text-black px-6 py-3.5 rounded-full bg-white hover:bg-neutral-100 transition-colors duration-300 select-none text-sm font-sans tracking-wide">
+                {t('footer.cta.btn')}
+            </a>
+        </div>
+    </div>
+
+    <!-- 2. BLOQUE DE FOOTER PRINCIPAL (Inspirado en la estructura del footer de referencia) -->
+    <footer id="main-footer" class="w-full bg-black text-neutral-400 pt-44 pb-12 px-6 md:px-24 border-t border-neutral-900 relative z-10">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
+            
+            <!-- Columna Izquierda (Logo, Dirección, Teléfono, Correo en layout de referencia) -->
+            <div class="footer-col md:col-span-6 flex flex-col gap-8">
+                <div class="flex flex-col gap-4">
+                    <a href="/" class="w-fit">
+                        <img src={siteLogo.src} class="invert opacity-95 hover:opacity-100 transition-opacity duration-300" width="130" height="auto" alt="Metal Mecánica Mexicana Logo" />
+                    </a>
+                    <p class="text-xs md:text-sm leading-relaxed max-w-sm text-neutral-400 font-sans">
+                        {t('footer.desc')}
+                    </p>
+                </div>
+                
+                <!-- Dirección, Teléfono y Email side-by-side de la referencia -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-6 border-t border-neutral-900/60">
+                    <div class="flex flex-col gap-1.5">
+                        <span class="text-xs font-semibold text-white uppercase tracking-wider">{t('footer.contact') || 'Contacto'}</span>
+                        <a href={`tel:${t('footer.phone').replace(/\s+/g, '')}`} class="text-xs md:text-sm hover:text-[#A3E034] transition-colors duration-300 font-sans">{t('footer.phone')}</a>
+                        <a href={`mailto:${t('footer.email')}`} class="text-xs md:text-sm hover:text-[#A3E034] transition-colors duration-300 break-all font-sans">{t('footer.email')}</a>
+                    </div>
+                    <div class="flex flex-col gap-1.5">
+                        <span class="text-xs font-semibold text-white uppercase tracking-wider">Ubicación</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Calle+Ferrocarril+514,+Colonia+Centro,+Meoqui,+Chihuahua,+33130" target="_blank" rel="noopener noreferrer" class="text-xs md:text-sm font-sans hover:text-[#A3E034] transition-colors duration-300">{t('footer.address')}</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columnas Derechas (Enlaces y selector de idioma en grid limpio) -->
+            <div class="md:col-span-6 grid grid-cols-2 md:grid-cols-3 gap-8 w-full">
+                <!-- Enlaces Rápidos -->
+                <div class="footer-col flex flex-col gap-4">
+                    <h3 class="text-white font-neuton font-medium text-base md:text-lg tracking-wider">{t('footer.quicklinks')}</h3>
+                    <ul class="flex flex-col gap-2.5 text-xs md:text-sm">
+                        <li><a href="#Hero" class="hover:text-[#A3E034] hover:translate-x-1 inline-block transition-all duration-300">{t('nav.home') || 'Inicio'}</a></li>
+                        <li><a href="#Us" class="hover:text-[#A3E034] hover:translate-x-1 inline-block transition-all duration-300">{t('nav.about') || 'Nosotros'}</a></li>
+                        <li><a href="#Quality" class="hover:text-[#A3E034] hover:translate-x-1 inline-block transition-all duration-300">{t('quality.title') || 'Calidad'}</a></li>
+                    </ul>
+                </div>
+
+                <!-- Idioma (Con botones de Topbar) -->
+                <div class="footer-col flex flex-col gap-4 md:col-span-2">
+                    <h3 class="text-white font-neuton font-medium text-base md:text-lg tracking-wider">Language</h3>
+                    <div class="flex flex-wrap gap-2 pt-1">
+                        <!-- Botón ES (Estilos exactos de Topbar) -->
+                        <a href="/" class={`px-4 py-2 rounded-full transition-all duration-300 flex items-center space-x-2 text-xs select-none ${currentLocale === 'es' ? 'text-black bg-[#A3E034] hover:bg-[#A3E034]/80 shadow-[0_0_15px_rgba(163,224,52,0.2)]' : 'text-white bg-[#132D0B] hover:bg-[#132D0B]/80'}`}>
+                            <Globe size={14} />
+                            <span>{t('lang.es')}</span>
+                        </a>
+                        <!-- Botón EN (Estilos exactos de Topbar) -->
+                        <a href="/en/" class={`px-4 py-2 rounded-full transition-all duration-300 flex items-center space-x-2 text-xs select-none ${currentLocale === 'en' ? 'text-black bg-[#A3E034] hover:bg-[#A3E034]/80 shadow-[0_0_15px_rgba(163,224,52,0.2)]' : 'text-white bg-[#132D0B] hover:bg-[#132D0B]/80'}`}>
+                            <Globe size={14} />
+                            <span>{t('lang.en')}</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Copyright Base -->
+        <div id="footer-bottom" class="max-w-7xl mx-auto border-t border-neutral-900 mt-16 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-[10px] md:text-xs text-neutral-500">
+            <p>{t('footer.rights')}</p>
+            <a href="https://www.vkastudio.com/" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 font-sans">
+                Developed with <span class="text-[#FF5FA2]"><Heart size={14} /></span> by <span class="text-[#A3E034]">The VKA Studio</span>
+            </a>
+        </div>
+    </footer>
+</div>
+
+<script>
+    import { gsap } from 'gsap';
+    import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Animación de entrada de la tarjeta de CTA traslapada (animación elegante con scrub)
+    gsap.from('#cta-card', {
+        scale: 0.92,
+        opacity: 0,
+        y: 60,
+        scrollTrigger: {
+            trigger: '#cta-card',
+            start: 'top 95%', // Inicia al asomar por abajo
+            end: 'top 75%',   // Termina rápido al subir
+            scrub: true,
+        }
+    });
+
+    // Animación de las columnas del footer
+    gsap.from('.footer-col', {
+        opacity: 0,
+        y: 25,
+        stagger: 0.08,
+        duration: 0.7,
+        ease: 'power2.out',
+        scrollTrigger: {
+            trigger: '#main-footer',
+            start: 'top 90%',
+            toggleActions: 'play none none none',
+        }
+    });
+
+    // Animación del bottom del footer
+    gsap.from('#footer-bottom', {
+        opacity: 0,
+        y: 15,
+        duration: 0.5,
+        ease: 'power2.out',
+        scrollTrigger: {
+            trigger: '#footer-bottom',
+            start: 'top 95%',
+            toggleActions: 'play none none none',
+        }
+    });
+</script>

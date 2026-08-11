@@ -1,0 +1,104 @@
+---
+import { useTranslations } from "../i18n/utils";
+import { languageList } from "../i18n/ui";
+
+const currentLocale = (Astro.currentLocale || 'es') as keyof typeof languageList;
+const t = useTranslations(currentLocale);
+
+const steps = [1, 2, 3, 4, 5, 6] as const;
+---
+
+<section id="WorkStyle" class="w-full bg-white py-24 md:py-36 px-6 overflow-hidden relative">
+    <div class="max-w-6xl mx-auto flex flex-col gap-16 md:gap-20">
+
+        <!-- Header -->
+        <div class="ws-header flex flex-col gap-4 max-w-2xl">
+            <span class="text-[10px] md:text-xs font-sans font-semibold uppercase tracking-widest text-white bg-[#1E3F20] px-5 py-3 rounded-full inline-block w-fit">
+                {t('workstyle.tag')}
+            </span>
+            <p class="text-[#1B2719]/70 text-lg md:text-xl font-sans leading-relaxed">
+                {t('workstyle.intro')}
+            </p>
+        </div>
+
+        <!-- Steps grid -->
+        <div class="ws-steps grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-neutral-200/80 rounded-2xl overflow-hidden border border-neutral-200">
+            {steps.map((n) => (
+                <div class={`ws-step bg-white p-7 md:p-9 flex flex-col gap-4 group relative overflow-hidden`}>
+                    <!-- Número de paso -->
+                    <span class="text-[64px] font-neuton font-light leading-none text-neutral-100 select-none absolute right-6 top-4 group-hover:text-[#A3E034]/20 transition-colors duration-500">
+                        {String(n).padStart(2, '0')}
+                    </span>
+
+                    <!-- Barra de acento -->
+                    <div class="ws-step-bar w-8 h-[2px] bg-[#A3E034] rounded-full transition-all duration-500 group-hover:w-12"></div>
+
+                    <!-- Título -->
+                    <h3 class="text-[#1B2719] text-base md:text-lg font-sans font-semibold leading-snug relative z-10">
+                        {t(`workstyle.step.${n}.title` as any)}
+                    </h3>
+
+                    <!-- Texto -->
+                    <p class="text-[#4E584B] text-sm md:text-base font-sans font-normal leading-relaxed relative z-10">
+                        {t(`workstyle.step.${n}.text` as any)}
+                    </p>
+                </div>
+            ))}
+        </div>
+
+        <!-- Outro -->
+        <div class="ws-outro flex items-center gap-4">
+            <div class="w-8 h-[2px] bg-[#A3E034] flex-shrink-0"></div>
+            <p class="text-[#4E584B] font-sans text-base md:text-lg leading-relaxed italic">
+                {t('workstyle.outro')}
+            </p>
+        </div>
+    </div>
+</section>
+
+<script>
+    import { gsap } from 'gsap';
+    import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Header
+    gsap.from('.ws-header', {
+        opacity: 0,
+        y: 40,
+        duration: 0.9,
+        ease: 'power3.out',
+        scrollTrigger: {
+            trigger: '#WorkStyle',
+            start: 'top 80%',
+            toggleActions: 'play none none none'
+        }
+    });
+
+    // Steps en cascada
+    gsap.from('.ws-step', {
+        opacity: 0,
+        y: 30,
+        duration: 0.7,
+        ease: 'power3.out',
+        stagger: 0.1,
+        scrollTrigger: {
+            trigger: '.ws-steps',
+            start: 'top 82%',
+            toggleActions: 'play none none none'
+        }
+    });
+
+    // Outro
+    gsap.from('.ws-outro', {
+        opacity: 0,
+        x: -20,
+        duration: 0.8,
+        ease: 'power3.out',
+        scrollTrigger: {
+            trigger: '.ws-outro',
+            start: 'top 90%',
+            toggleActions: 'play none none none'
+        }
+    });
+</script>

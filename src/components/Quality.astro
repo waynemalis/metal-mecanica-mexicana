@@ -1,0 +1,149 @@
+---
+import image1 from '../assets/images/1.jpg';
+import image2 from '../assets/images/3.jpg';
+import image3 from '../assets/images/2.jpg';
+import image4 from '../assets/images/10.jpg';
+
+import { useTranslations } from "../i18n/utils";
+import { languageList } from "../i18n/ui";
+
+const currentLocale = (Astro.currentLocale || 'es') as keyof typeof languageList;
+const t = useTranslations(currentLocale);
+---
+
+<!-- Contenedor Padre Fijo para evitar saltos de maquetación (Layout Shifting) y asegurar el pinning correcto -->
+<div id="Quality-container" class="relative w-full h-[100vh] flex items-center justify-center overflow-visible">
+    <!-- Tarjeta de Quality que se expande verticalmente (de 25vh a 100vh) -->
+    <div id="Quality" class="w-full h-full flex flex-col relative items-center justify-center px-4 md:px-6 text-center overflow-hidden bg-white text-black origin-center">
+        <!-- Contenido Central -->
+        <div id="quality-content" class="w-[92%] md:w-[80%] px-4 z-10">
+            <h2 class="text-4xl md:text-6xl font-neuton font-medium italic text-[#1E3F20] mb-4 md:mb-6">{t('quality.title')}</h2>
+            <p class="text-[#4E584B] text-base md:text-lg leading-relaxed text-center max-w-4xl mx-auto">
+                {t('quality.text')}
+            </p>
+        </div>
+
+        <!-- Fotos Flotantes en Espacio Etereal (Habilitadas y redimensionadas a mayor tamaño para móvil y desktop) -->
+        <!-- Foto 1 (Arriba Izquierda) -->
+        <div class="quality-photo-wrapper-1 absolute top-[6%] left-[4%] md:top-[8%] md:left-[5%] z-5 will-change-transform">
+            <img src={image1.src} class="quality-photo-inner-1 w-36 h-24 md:w-80 md:h-52 object-cover rounded-xl md:rounded-2xl shadow-[0_15px_35px_rgba(0,0,0,0.1)] md:shadow-[0_20px_50px_rgba(0,0,0,0.12)] border border-slate-200/60 [backface-visibility:hidden] [image-rendering:auto]" alt="Calidad 1" />
+        </div>
+
+        <!-- Foto 2 (Arriba Derecha) -->
+        <div class="quality-photo-wrapper-2 absolute top-[8%] right-[4%] md:top-[10%] md:right-[5%] z-5 will-change-transform">
+            <img src={image2.src} class="quality-photo-inner-2 w-40 h-28 md:w-96 md:h-64 object-cover rounded-xl md:rounded-2xl shadow-[0_15px_35px_rgba(0,0,0,0.1)] md:shadow-[0_20px_50px_rgba(0,0,0,0.12)] border border-slate-200/60 [backface-visibility:hidden] [image-rendering:auto]" alt="Calidad 2" />
+        </div>
+
+        <!-- Foto 3 (Abajo Izquierda) -->
+        <div class="quality-photo-wrapper-3 absolute bottom-[6%] left-[4%] md:bottom-[8%] md:left-[6%] z-5 will-change-transform">
+            <img src={image3.src} class="quality-photo-inner-3 w-32 h-32 md:w-64 md:h-64 object-cover rounded-xl md:rounded-2xl shadow-[0_15px_35px_rgba(0,0,0,0.1)] md:shadow-[0_20px_50px_rgba(0,0,0,0.12)] border border-slate-200/60 [backface-visibility:hidden] [image-rendering:auto]" alt="Calidad 3" />
+        </div>
+
+        <!-- Foto 4 (Abajo Derecha) -->
+        <div class="quality-photo-wrapper-4 absolute bottom-[8%] right-[4%] md:bottom-[8%] md:right-[6%] z-5 will-change-transform">
+            <img src={image4.src} class="quality-photo-inner-4 w-36 h-24 md:w-84 md:h-56 object-cover rounded-xl md:rounded-2xl shadow-[0_15px_35px_rgba(0,0,0,0.1)] md:shadow-[0_20px_50px_rgba(0,0,0,0.12)] border border-slate-200/60 [backface-visibility:hidden] [image-rendering:auto]" alt="Calidad 4" />
+        </div>
+    </div>
+</div>
+
+<script>
+    import { gsap } from 'gsap';
+    import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // 1. Animación de expansión vertical de 25vh a 100vh
+    gsap.fromTo("#Quality", {
+        height: '25vh',
+    }, {
+        height: '100vh',
+        ease: 'none',
+        scrollTrigger: {
+            trigger: '#Quality-container',
+            start: 'top bottom', // Inicia al asomar el contenedor por abajo
+            end: 'top top',    // Completa la expansión justo cuando llega al tope superior
+            scrub: true,
+        }
+    });
+
+
+    // Detectar si la pantalla es móvil para adaptar la física de las fotos
+    const isMobile = window.innerWidth < 768;
+
+    // 2. Timeline para el bloqueo de scroll (pinning) y la salida progresiva elegante de las fotos
+    const tl = gsap.timeline({
+        scrollTrigger: {
+            trigger: '#Quality-container',
+            start: 'top top',    // Se ancla al completarse la expansión (tope de la pantalla)
+            end: '+=1500',       // El scroll se congela durante 1500px
+            pin: true,           // Fija el contenedor
+            scrub: true,         // Scroll bidireccional fluido
+        }
+    });
+
+    // Zoom sutil del texto central
+    tl.fromTo('#quality-content', {
+        scale: 0.95,
+        y: -200,
+    }, {
+        scale: 1,
+        y: 0,
+        ease: 'power1.out',
+        duration: 0.5,
+    }, 0);
+
+    // Configuración responsiva de entrada para las fotos
+    const config1 = isMobile 
+        ? { from: { scale: 0.9, opacity: 0, y: -25, x: -10, filter: 'blur(4px)' }, to: { scale: 1, opacity: 1, y: 120, x: 0, filter: 'blur(0px)', rotation: -2 } }
+        : { from: { scale: 0.93, opacity: 0, filter: 'blur(8px)', y: 40, x: 0, rotation: 0 }, to: { scale: 1, opacity: 1, filter: 'blur(0px)', y: 120, x: 0, rotation: -2 } };
+
+    const config2 = isMobile 
+        ? { from: { scale: 0.9, opacity: 0, y: -25, x: 10, filter: 'blur(4px)' }, to: { scale: 1, opacity: 1, y: 0, x: 0, filter: 'blur(0px)', rotation: 2 } }
+        : { from: { scale: 0.93, opacity: 0, filter: 'blur(8px)', y: 40, x: 0, rotation: 0 }, to: { scale: 1, opacity: 1, filter: 'blur(0px)', y: 20, x: 0, rotation: 2.5 } };
+
+    const config3 = isMobile 
+        ? { from: { scale: 0.9, opacity: 0, y: 25, x: -10, filter: 'blur(4px)' }, to: { scale: 1, opacity: 1, y: 0, x: 0, filter: 'blur(0px)', rotation: 1.5 } }
+        : { from: { scale: 0.93, opacity: 0, filter: 'blur(8px)', y: 40, x: 0, rotation: 0 }, to: { scale: 1, opacity: 1, filter: 'blur(0px)', y: 0, x: 0, rotation: 1.5 } };
+
+    const config4 = isMobile 
+        ? { from: { scale: 0.9, opacity: 0, y: 25, x: 10, filter: 'blur(4px)' }, to: { scale: 1, opacity: 1, y: 0, x: 0, filter: 'blur(0px)', rotation: -2 } }
+        : { from: { scale: 0.93, opacity: 0, filter: 'blur(8px)', y: 40, x: 0, rotation: 0 }, to: { scale: 1, opacity: 1, filter: 'blur(0px)', y: -120, x: 0, rotation: -2 } };
+
+    tl.fromTo('.quality-photo-wrapper-1', config1.from, { ...config1.to, ease: 'power2.out', duration: 0.5 }, 0);
+    tl.fromTo('.quality-photo-wrapper-2', config2.from, { ...config2.to, ease: 'power2.out', duration: 0.5 }, 0.1);
+    tl.fromTo('.quality-photo-wrapper-3', config3.from, { ...config3.to, ease: 'power2.out', duration: 0.5 }, 0.2);
+    tl.fromTo('.quality-photo-wrapper-4', config4.from, { ...config4.to, ease: 'power2.out', duration: 0.5 }, 0.3);
+
+    // 3. Flotación lenta e ingrávida extremadamente sutil
+    gsap.to('.quality-photo-inner-1', {
+        y: '+=6',
+        duration: 6,
+        ease: 'sine.inOut',
+        yoyo: true,
+        repeat: -1
+    });
+
+    gsap.to('.quality-photo-inner-2', {
+        y: '-=8',
+        duration: 6.5,
+        ease: 'sine.inOut',
+        yoyo: true,
+        repeat: -1
+    });
+
+    gsap.to('.quality-photo-inner-3', {
+        y: '+=7',
+        duration: 5.8,
+        ease: 'sine.inOut',
+        yoyo: true,
+        repeat: -1
+    });
+
+    gsap.to('.quality-photo-inner-4', {
+        y: '-=6',
+        duration: 7,
+        ease: 'sine.inOut',
+        yoyo: true,
+        repeat: -1
+    });
+</script>
